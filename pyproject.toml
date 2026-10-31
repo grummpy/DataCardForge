@@ -1,0 +1,27 @@
+[project]
+name = "datacardforge"
+version = "1.0.0"
+description = "Offline data cards for local CSV, Parquet, and image-folder datasets."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pyarrow>=15",
+  "pillow>=10",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+datacardforge = "datacardforge.server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["datacardforge*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

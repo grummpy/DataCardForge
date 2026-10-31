@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>DataCardForge</title>
+<link rel="icon" href="/art/icon.png">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <img src="/art/icon.png" alt="" width="44" height="44">
+    <div>
+      <p class="kicker">Local forge</p>
+      <h1>DataCardForge</h1>
+    </div>
+  </div>
+  <p id="host-line" class="host-line">127.0.0.1:8767 · offline</p>
+</header>
+<p id="status" class="status" role="status"></p>
+<main>
+  <aside class="picker">
+    <h2>Dataset</h2>
+    <p class="lede">Point at a folder of CSV, Parquet, or image classes (<code>folder/class/*.jpg</code>).</p>
+    <div id="samples" class="samples"></div>
+    <label class="path-label" for="path-input">Folder</label>
+    <div class="path-row">
+      <input id="path-input" type="text" spellcheck="false" placeholder="samples/colored-shapes-csv" autocomplete="off">
+      <button id="browse-button" type="button">Browse</button>
+    </div>
+    <div class="actions">
+      <button id="scan-button" type="button" class="primary">Scan</button>
+      <button id="rescan-button" type="button" hidden>Re-scan</button>
+      <button id="discard-button" type="button" class="quiet" hidden>Discard edits</button>
+    </div>
+    <p id="output-line" class="output-line"></p>
+  </aside>
+  <section id="welcome" class="welcome">
+    <img src="/art/cover.png" alt="An anvil forging a glowing data card.">
+    <div>
+      <h2>Forge a card from a local folder</h2>
+      <p>Scan writes <code>DATACARD.md</code>, <code>DATACARD.html</code>, and <code>datacard.json</code> beside the data. Edits live in the JSON file, so a later scan refreshes counts without wiping what you wrote.</p>
+    </div>
+  </section>
+  <section id="editor" class="editor" hidden>
+    <div class="editor-bar">
+      <h2 id="dataset-title">Card</h2>
+      <span id="kind-badge" class="badge">tabular</span>
+      <span id="dirty-label" class="dirty" hidden>Unsaved edits</span>
+      <div class="editor-actions">
+        <button id="save-button" type="button" class="primary">Save</button>
+        <button id="export-md" type="button">Export Markdown</button>
+        <button id="export-html" type="button">Export HTML</button>
+        <button id="export-json" type="button">Export JSON</button>
+      </div>
+    </div>
+    <div id="error-box"></div>
+    <section class="block">
+      <h3>Overview</h3>
+      <div class="grid-2">
+        <label>Name <span class="pill" data-pill="name">scanned</span>
+          <input id="name" type="text">
+          <button type="button" class="linkish" data-revert="name">Use scanned name</button>
+        </label>
+        <label>Version <span class="pill" data-pill="version">scanned</span>
+          <input id="version" type="text">
+          <button type="button" class="linkish" data-revert="version">Use scanned version</button>
+        </label>
+        <label>Created <span class="pill" data-pill="created">scanned</span>
+          <input id="created" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" spellcheck="false">
+          <button type="button" class="linkish" data-revert="created">Use scanned date</button>
+        </label>
+        <label>License <span class="pill" data-pill="license">scanned</span>
+          <select id="license"></select>
+          <button type="button" class="linkish" data-revert="license">Use scanned license</button>
+        </label>
+      </div>
+      <label>Description <span class="pill" data-pill="description">scanned</span>
+        <textarea id="description" rows="4"></textarea>
+        <button type="button" class="linkish" data-revert="description">Use scanned description</button>
+      </label>
+    </section>
+    <section class="block">
+      <h3>Size</h3>
+      <div id="size-tiles" class="tiles"></div>
+      <p id="resolution-line" class="note"></p>
+    </section>
+    <section class="block">
+      <h3>Schema</h3>
+      <div id="schema-box"></div>
+    </section>
+    <section class="block">
+      <h3>Class balance</h3>
+      <p id="balance-summary" class="note"></p>
+      <div id="balance-box"></div>
+    </section>
+    <section class="block">
+      <h3>Missingness</h3>
+      <p id="missing-summary" class="note"></p>
+      <div id="missing-box"></div>
+    </section>
+    <section class="block">
+      <h3>Duplicates</h3>
+      <div id="dupe-box"></div>
+    </section>
+    <section class="block">
+      <h3>PII hints</h3>
+      <p class="warn">Warning only. Nothing is redacted. The card stays on this machine.</p>
+      <div id="pii-box"></div>
+    </section>
+    <section class="block">
+      <h3>Sources</h3>
+      <div id="auto-sources"></div>
+      <div id="user-sources"></div>
+      <button id="add-source" type="button">Add a source note</button>
+    </section>
+    <section class="block">
+      <h3>Known gaps</h3>
+      <div id="auto-gaps"></div>
+      <p id="threshold-line" class="note"></p>
+      <label>Your notes
+        <textarea id="gaps" rows="4" placeholder="Anything the scan cannot see."></textarea>
+      </label>
+    </section>
+    <section class="block">
+      <h3>Intended use</h3>
+      <textarea id="intended" rows="4" placeholder="What this dataset is for."></textarea>
+    </section>
+    <section class="block">
+      <h3>Out-of-scope use</h3>
+      <textarea id="out-of-scope" rows="4" placeholder="What this dataset must not be used for."></textarea>
+    </section>
+  </section>
+  <section class="preview-pane">
+    <div class="preview-bar">
+      <h2>Live preview</h2>
+      <div>
+        <button id="show-html" type="button" class="primary">Card</button>
+        <button id="show-md" type="button">Markdown</button>
+      </div>
+    </div>
+    <iframe id="preview" title="Data card preview" sandbox=""></iframe>
+    <pre id="markdown-preview" hidden></pre>
+  </section>
+</main>
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-bar">
+      <h2 id="modal-title">Choose a folder</h2>
+      <button id="modal-close" type="button">Close</button>
+    </div>
+    <p id="modal-path" class="modal-path"></p>
+    <div class="modal-actions">
+      <button id="modal-up" type="button">Up</button>
+      <button id="modal-scan" type="button" class="primary">Scan this folder</button>
+    </div>
+    <ul id="modal-list"></ul>
+  </div>
+</div>
+<noscript><p class="status error">DataCardForge needs JavaScript. It still stays on this machine.</p></noscript>
+<script src="/app.js"></script>
+</body>
+</html>

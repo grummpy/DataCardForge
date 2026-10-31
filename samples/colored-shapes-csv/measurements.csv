@@ -1,0 +1,28 @@
+sample_id,width_px,label,contact_email,phone,person_name,notes
+s001,48,circle,rowan@example.com,555-0001,Rowan Kepler,synthetic row
+s002,96,circle,mina@example.com,555-0002,Mina Quill,synthetic row
+s003,32,circle,theo@example.com,555-0003,Theo Byte,
+s004,,circle,nia@example.com,555-0004,Nia Forge,synthetic row
+s005,64,circle,sol@example.com,555-0005,Sol Harper,synthetic row
+s006,48,circle,willa@example.com,555-0006,Willa North,
+s007,96,circle,idris@example.com,555-0007,Idris Vale,synthetic row
+s008,32,circle,,,Pilar Moss,synthetic row
+s009,80,circle,rowan@example.com,555-0009,Rowan Kepler,
+s010,64,circle,mina@example.com,555-0010,Mina Quill,synthetic row
+s011,48,circle,theo@example.com,555-0011,Theo Byte,synthetic row
+s012,96,circle,nia@example.com,555-0012,,
+s013,32,circle,sol@example.com,555-0013,Sol Harper,synthetic row
+s014,80,circle,willa@example.com,555-0014,Willa North,synthetic row
+s015,64,circle,idris@example.com,,Idris Vale,
+s016,48,circle,pilar@example.com,555-0016,Pilar Moss,synthetic row
+s017,96,square,rowan@example.com,555-0017,Rowan Kepler,synthetic row
+s018,32,square,mina@example.com,555-0018,Mina Quill,
+s019,80,square,theo@example.com,555-0019,Theo Byte,synthetic row
+s020,64,square,,555-0020,Nia Forge,synthetic row
+s021,48,square,sol@example.com,555-0021,Sol Harper,
+s022,96,square,willa@example.com,555-0022,Willa North,synthetic row
+s023,32,square,idris@example.com,555-0023,Idris Vale,synthetic row
+s024,80,square,pilar@example.com,555-0024,Pilar Moss,
+s025,64,triangle,rowan@example.com,555-0025,Rowan Kepler,synthetic row
+s001,48,circle,rowan@example.com,555-0001,Rowan Kepler,synthetic row
+s003,32,circle,theo@example.com,555-0003,Theo Byte,
